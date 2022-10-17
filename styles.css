@@ -1,0 +1,70 @@
+body {
+    margin: 0;
+    font-family: 'PT Sans', sans-serif;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+}
+
+.navbar, .footer {
+    background-color: rgb(32, 31, 31);
+    color: white;
+}
+
+.navbar {
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    font-size: 30px;
+    align-items: center;
+    height: 50px;
+}
+
+.icon-book {
+    margin-left: 20px;
+}
+
+.icon-login {
+    margin-right: 20px;
+}
+
+.book-container {
+    height: 100%;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.add-button {
+    position: absolute;
+    right: 20px;
+    bottom: 35px;
+}
+
+.add-button:hover {
+    cursor: pointer;
+    color: gray;
+}
+
+.book {
+    height: 200px;
+    width: 350px;
+    border-radius: 10px;
+    background-color: rgb(205, 203, 203);
+    display: grid;
+    padding-left: 10px;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+
+}
+
+.title {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.footer {
+    text-align: center;
+}
