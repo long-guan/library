@@ -21,16 +21,19 @@
         <div class="book-container">
             <div class="book">
                 <div class="title">Book Title</div>
-                <div>Book Author</div>
-                <div># of Pages</div>
-                <div>Date Published</div>
-                <div>Read or Not Read Slider</div>
-                <div>
-                    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                <div class="authur">Book Author</div>
+                <div class="page"># of Pages</div>
+                <div class="date">Date Published</div>
+                <label class="read-slider">
+                    <input type="checkbox">
+                    <span>Mark As Read</span>
+                </label>
+                <div class="edit-delete">
+                    <svg class="edit-button">
                         <path fill="currentColor" d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
                     </svg>
-                    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M20.41 19L22.54 21.12L21.12 22.54L19 20.41L16.88 22.54L15.47 21.12L17.59 19L15.47 16.88L16.88 15.47L19 17.59L21.12 15.47L22.54 16.88L20.41 19M19 13C20.09 13 21.12 13.3 22 13.81V6C22 4.89 21.11 4 20 4H4C2.9 4 2 4.89 2 6V18C2 19.11 2.9 20 4 20H13.09C13.04 19.67 13 19.34 13 19C13 15.69 15.69 13 19 13Z" />
+                    <svg class="delete-button">
+                        <path fill="currentColor" d="M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V5H19V19M17,8.4L13.4,12L17,15.6L15.6,17L12,13.4L8.4,17L7,15.6L10.6,12L7,8.4L8.4,7L12,10.6L15.6,7L17,8.4Z" />
                     </svg>
                 </div>
             </div>
