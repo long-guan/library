@@ -63,6 +63,7 @@ body {
     grid-template-columns: 1fr 1fr;
     align-items: center;
     justify-items: center;
+
 }
 
 .title {
@@ -118,6 +119,41 @@ body {
     grid-column: 2 / 3;
     width: 24px;
     height: 24px;
+}
+
+.form-input {
+    background-color: gray;
+    position: absolute;
+    height: 200px;
+    width: 350px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    display: none;
+}
+
+.form-buttons>button {
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.form-buttons>button:hover {
+    cursor: pointer;
+    background-color: white;
+}
+
+.blur {
+    filter: blur(0.25rem);
 }
 
 .footer {
