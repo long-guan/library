@@ -5,7 +5,7 @@ const inputAuthor = document.querySelector("#input-authur");
 const inputPages = document.querySelector("#input-pages");
 const checkBox = document.querySelector("#input-checkbox");
 const inputDate = document.querySelector("#input-date");
-
+const confirmDelete = document.querySelector(".confirm-delete");
 
 let myLibrary = [];
 
@@ -13,11 +13,6 @@ let myLibrary = [];
 const exit = document.querySelector(".exit").addEventListener('click', ()=>{
     hideFormUnblur();
 });
-
-const deleteBook = document.querySelector(".delete-button").addEventListener("click", ()=> {
-    console.log(event.target.parentNode.parentNode);
-    event.target.remove(event.target.parentNode.parentNode);
-})
 
 // + button to show form
 const addBook = document.querySelector(".add-button").addEventListener('click', ()=> {
@@ -126,5 +121,26 @@ function addDelete() {
     newSVGPath.setAttribute("fill", "currentColor");
     newSVGPath.setAttribute("d", "M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V5H19V19M17,8.4L13.4,12L17,15.6L15.6,17L12,13.4L8.4,17L7,15.6L10.6,12L7,8.4L8.4,7L12,10.6L15.6,7L17,8.4Z");
     newSVG.appendChild(newSVGPath);
+    newSVG.addEventListener("click", ()=>{
+        showConfirmDelete(newSVG);
+    });
     return newSVG;
+}
+
+// displays the confirm pop up
+function showConfirmDelete(newSVG) {
+    confirmDelete.style.display = "flex";
+    bookContainer.classList.add("blur");
+    const confirmDeleteNo = document.querySelector(".confirm-no").addEventListener("click", ()=>{
+        hideConfirmDelete();
+    });
+    const confirmDeleteYes = document.querySelector(".confirm-yes").addEventListener("click", ()=>{
+        newSVG.parentNode.parentNode.remove();
+        hideConfirmDelete();
+    });
+}
+
+function hideConfirmDelete() {
+    confirmDelete.style.display = "none";
+    bookContainer.classList.remove("blur");
 }
