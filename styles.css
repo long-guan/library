@@ -36,8 +36,10 @@ body {
     height: 100%;
     padding-top: 10px;
     padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(350px,1fr));
     gap: 10px;
 }
 
@@ -53,8 +55,8 @@ body {
 }
 
 .book {
-    height: 200px;
-    width: 350px;
+    /* height: 200px; */
+    /* width: 350px; */
     border-radius: 10px;
     background-color: rgb(205, 203, 203);
     display: grid;

@@ -129,13 +129,48 @@ function addDelete() {
 // displays the confirm pop up
 function showConfirmDelete(evt) {
     evt.currentTarget.parentNode.nextElementSibling.style.display = "flex"; // displays confirm-delete popup
+    blurBooks();
     evt.currentTarget.parentNode.nextElementSibling.children[1].children[1].addEventListener("click", ()=>{ // selects no button
         this.parentNode.nextElementSibling.style.display = "none";
-        console.log('no');
+        removeBlurBooks();
     });
-    evt.currentTarget.parentNode.nextElementSibling.children[1].children[0].addEventListener("click", ()=>{ // selects no button
-        console.log('yes');
+    evt.currentTarget.parentNode.nextElementSibling.children[1].children[0].addEventListener("click", ()=>{ // selects yes button
+        this.parentNode.parentNode.remove();
+        removeBlurBooks();
     });
+}
+
+
+// blurs all the book contents
+function blurBooks() {
+    const allTitle = document.querySelectorAll('.title');
+    allTitle.forEach(book => book.classList.add('blur'));
+    const allAuthur = document.querySelectorAll('.authur');
+    allAuthur.forEach(authur => authur.classList.add('blur'));
+    const allPage = document.querySelectorAll('.page');
+    allPage.forEach(page => page.classList.add('blur'));
+    const allDate = document.querySelectorAll('.date');
+    allDate.forEach(date => date.classList.add('blur'));
+    const allReadSlider = document.querySelectorAll('.read-slider');
+    allReadSlider.forEach(slider => slider.classList.add('blur'));
+    const allEditDelete = document.querySelectorAll('.edit-delete');
+    allEditDelete.forEach(editDelete => editDelete.classList.add('blur'));
+}
+
+// removes blur from book contents
+function removeBlurBooks() {
+    const allTitle = document.querySelectorAll('.title');
+    allTitle.forEach(book => book.classList.remove('blur'));
+    const allAuthur = document.querySelectorAll('.authur');
+    allAuthur.forEach(authur => authur.classList.remove('blur'));
+    const allPage = document.querySelectorAll('.page');
+    allPage.forEach(page => page.classList.remove('blur'));
+    const allDate = document.querySelectorAll('.date');
+    allDate.forEach(date => date.classList.remove('blur'));
+    const allReadSlider = document.querySelectorAll('.read-slider');
+    allReadSlider.forEach(slider => slider.classList.remove('blur'));
+    const allEditDelete = document.querySelectorAll('.edit-delete');
+    allEditDelete.forEach(editDelete => editDelete.classList.remove('blur'));
 }
 
 function removeSVG(evt) {
