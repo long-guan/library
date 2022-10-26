@@ -6,7 +6,7 @@ body {
 .flex-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
     justify-content: space-between;
 }
 
@@ -22,6 +22,25 @@ body {
     font-size: 30px;
     align-items: center;
     height: 50px;
+}
+
+.stats {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+hr {
+    border-width: 2px;
+    border-color: gray;
+    width: 100%;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
 .icon-book {
@@ -40,11 +59,14 @@ body {
     padding-bottom: 10px;
     display: grid;
     grid-template-columns: repeat(3, minmax(350px,1fr));
+    grid-template-rows: repeat(3, minmax(200px, 1fr));
     gap: 10px;
+    grid-auto-columns: minmax(350px,1fr);
+    grid-auto-rows: minmax(200px, 1fr);
 }
 
 .add-button {
-    position: absolute;
+    position: fixed;
     right: 20px;
     bottom: 35px;
 }
@@ -125,7 +147,7 @@ body {
 
 .form-input {
     background-color: gray;
-    position: absolute;
+    position: fixed;
     height: 200px;
     width: 350px;
     left: 50%;

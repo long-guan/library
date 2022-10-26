@@ -6,6 +6,7 @@ const inputPages = document.querySelector("#input-pages");
 const checkBox = document.querySelector("#input-checkbox");
 const inputDate = document.querySelector("#input-date");
 const confirmDelete = document.querySelector(".confirm-delete");
+const totalBookDisplay = document.querySelector('.total-books');
 
 let myLibrary = [];
 
@@ -23,17 +24,65 @@ const addBook = document.querySelector(".add-button").addEventListener('click', 
 const submit = document.querySelector(".submit").addEventListener('click', ()=> {
     const newBook = new createBook(inputTitle.value, inputAuthor.value, inputPages.value, checkBox.checked, inputDate.value);
     myLibrary.push(newBook);
-    addBookContainer(newBook);
+    addBookContainer();
     hideFormUnblur();
     clearForm();
 })
+
+// creates book structure and elements and appends to book-container
+function addBookContainer() {
+    for (const book of myLibrary) {
+        if (book.display == false) {
+            const newBookCont = document.createElement("div");
+            newBookCont.className = "book";
+            newBookCont.classList.add(book.order);
+            addBookInfo(newBookCont, "title", book.title);
+            addBookInfo(newBookCont, "authur", "By: " + book.author);
+            addBookInfo(newBookCont, "page", book.pages + " Pages");
+            addCheckBox(newBookCont, book.checkbox);
+            addBookInfo(newBookCont, "date", "Published: " + book.date);
+            addSVG(newBookCont);
+            newBookCont.appendChild(createConfirmPopup())
+            bookContainer.appendChild(newBookCont);
+            book.display = true;
+        }
+    }
+    updateStats();
+}
+
+// creates a new DIV
+function addBookInfo(newBookCont, className, info) {
+    const newDiv = document.createElement("div");
+    newDiv.className = className;
+    const content = document.createTextNode(info);
+    newDiv.appendChild(content);
+    newBookCont.appendChild(newDiv);
+}
+
+// creates book structure and elements and appends to book-container
+// function addBookContainer(input) {
+//     const newBook = document.createElement("div");
+//     newBook.className = "book";
+//     console.log(input.title);
+//     addBookInfo(newBook, "title", input.title);
+//     addBookInfo(newBook, "authur", "By: " + input.author);
+//     addBookInfo(newBook, "page", input.pages + " Pages");
+//     addCheckBox(newBook, input.checkbox);
+//     addBookInfo(newBook, "date", "Published: " + input.date);
+//     addSVG(newBook);
+//     newBook.appendChild(createConfirmPopup())
+//     bookContainer.appendChild(newBook);
+//     updateStats();
+// }
 
 function createBook(title, author, pages, checkbox, date) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.checkbox = checkbox;
+    this.read = checkbox;
     this.date = date;
+    this.order = myLibrary.length;
+    this.display = false;
 }
 
 function clearForm() {
@@ -56,32 +105,8 @@ function hideFormUnblur() {
     bookContainer.classList.remove("blur");
 }
 
-// creates book structure and elements
-function addBookContainer(input) {
-    const newBook = document.createElement("div");
-    newBook.className = "book";
-    console.log(input.title);
-    addBookInfo(newBook, "title", input.title);
-    addBookInfo(newBook, "authur", "By: " + input.author);
-    addBookInfo(newBook, "page", input.pages + " Pages");
-    addCheckBox(newBook, input.checkbox);
-    addBookInfo(newBook, "date", "Published: " + input.date);
-    addSVG(newBook);
-    newBook.appendChild(createConfirmPopup())
-    bookContainer.appendChild(newBook);
-}
-
-// creates a new DIV
-function addBookInfo(newBook, className, info) {
-    const newDiv = document.createElement("div");
-    newDiv.className = className;
-    const content = document.createTextNode(info);
-    newDiv.appendChild(content);
-    newBook.appendChild(newDiv);
-}
-
 // creates a new checkbox
-function addCheckBox(newBook, checkbox) {
+function addCheckBox(newBookCont, checkbox) {
     const newLabel = document.createElement("label");
     newLabel.className = "read-slider";
     const newCheckBox = document.createElement("input");
@@ -92,15 +117,15 @@ function addCheckBox(newBook, checkbox) {
     newSpan.appendChild(content);
     newLabel.appendChild(newCheckBox);
     newLabel.appendChild(newSpan);
-    newBook.appendChild(newLabel);
+    newBookCont.appendChild(newLabel);
 }
 
-function addSVG(newBook) {
+function addSVG(newBookCont) {
     const editDeleteCont = document.createElement("div");
     editDeleteCont.classList.add("edit-delete");
     editDeleteCont.appendChild(addEdit());
     editDeleteCont.appendChild(addDelete());
-    newBook.appendChild(editDeleteCont);
+    newBookCont.appendChild(editDeleteCont);
 }
 
 // creates new SVG edit button
@@ -135,11 +160,14 @@ function showConfirmDelete(evt) {
         removeBlurBooks();
     });
     evt.currentTarget.parentNode.nextElementSibling.children[1].children[0].addEventListener("click", ()=>{ // selects yes button
+        console.log(this.parentNode.parentNode.className);
+        myLibrary.splice(this.parentNode.parentNode.className.match(/\d/g), 1);
         this.parentNode.parentNode.remove();
+        resetBookOrder();
         removeBlurBooks();
+        updateStats();
     });
 }
-
 
 // blurs all the book contents
 function blurBooks() {
@@ -179,8 +207,7 @@ function removeSVG(evt) {
     hideConfirmDelete();
 }
 
-
-// creates indivudla confirm popup for each book
+// creates individual confirm popup for each book
 function createConfirmPopup() {
     const newContainer = document.createElement('div');
     newContainer.classList.add("confirm-delete");
@@ -202,3 +229,15 @@ function createConfirmPopup() {
     newContainer.appendChild(newDiv2);
     return newContainer;
 }
+
+function updateStats() {
+    totalBookDisplay.innerHTML = myLibrary.length;
+}
+
+// function updateBookCount() {
+//     let bookCount = 0;
+//     for (const book of myLibrary) {
+//         bookCount += 1;
+//     }
+//     return bookCount;
+// }
