@@ -7,6 +7,9 @@ const checkBox = document.querySelector("#input-checkbox");
 const inputDate = document.querySelector("#input-date");
 const confirmDelete = document.querySelector(".confirm-delete");
 const totalBookDisplay = document.querySelector('.total-books');
+const totalBooksRead = document.querySelector('.total-books-read');
+const totalPagesDisplay = document.querySelector('.total-pages');
+const totalPagesRead = document.querySelector('.total-pages-read');
 
 let myLibrary = [];
 
@@ -39,7 +42,7 @@ function addBookContainer() {
             addBookInfo(newBookCont, "title", book.title);
             addBookInfo(newBookCont, "authur", "By: " + book.author);
             addBookInfo(newBookCont, "page", book.pages + " Pages");
-            addCheckBox(newBookCont, book.checkbox);
+            addCheckBox(newBookCont, book.read);
             addBookInfo(newBookCont, "date", "Published: " + book.date);
             addSVG(newBookCont);
             newBookCont.appendChild(createConfirmPopup())
@@ -58,22 +61,6 @@ function addBookInfo(newBookCont, className, info) {
     newDiv.appendChild(content);
     newBookCont.appendChild(newDiv);
 }
-
-// creates book structure and elements and appends to book-container
-// function addBookContainer(input) {
-//     const newBook = document.createElement("div");
-//     newBook.className = "book";
-//     console.log(input.title);
-//     addBookInfo(newBook, "title", input.title);
-//     addBookInfo(newBook, "authur", "By: " + input.author);
-//     addBookInfo(newBook, "page", input.pages + " Pages");
-//     addCheckBox(newBook, input.checkbox);
-//     addBookInfo(newBook, "date", "Published: " + input.date);
-//     addSVG(newBook);
-//     newBook.appendChild(createConfirmPopup())
-//     bookContainer.appendChild(newBook);
-//     updateStats();
-// }
 
 function createBook(title, author, pages, checkbox, date) {
     this.title = title;
@@ -110,14 +97,41 @@ function addCheckBox(newBookCont, checkbox) {
     const newLabel = document.createElement("label");
     newLabel.className = "read-slider";
     const newCheckBox = document.createElement("input");
-    newCheckBox.type = "checkbox"
+    newCheckBox.type = "checkbox";
     newCheckBox.checked = checkbox;
+    console.log(newCheckBox.checked);
     const newSpan = document.createElement("span");
     const content = document.createTextNode("Mark As Read");
     newSpan.appendChild(content);
     newLabel.appendChild(newCheckBox);
     newLabel.appendChild(newSpan);
     newBookCont.appendChild(newLabel);
+    newCheckBox.addEventListener("click", updateReadStatus);
+}
+
+function updateReadStatus(evt) {
+    console.log(evt.currentTarget);
+    if (myLibrary[matchClassToOrder(evt)].read == false) {
+        myLibrary[matchClassToOrder(evt)].read = true;
+    } else {
+        myLibrary[matchClassToOrder(evt)].read = false;
+    }
+    totalBooksRead.innerHTML = updateTotalBooksRead();
+    totalPagesRead.innerHTML = updateTotalPagesRead();
+    console.log(updateTotalBooksRead());
+}
+
+function matchClassToOrder(evt) {
+    let order = 0;
+    console.log(evt.currentTarget.parentNode.parentNode);
+    for (let book of myLibrary) {
+        if (book.order == evt.currentTarget.parentNode.parentNode.className.match(/\d/g)) {
+            break;
+        } else {
+            order++;
+        }
+    }
+    return order;
 }
 
 function addSVG(newBookCont) {
@@ -151,6 +165,7 @@ function addDelete() {
     return newSVG;
 }
 
+
 // displays the confirm pop up
 function showConfirmDelete(evt) {
     evt.currentTarget.parentNode.nextElementSibling.style.display = "flex"; // displays confirm-delete popup
@@ -161,12 +176,34 @@ function showConfirmDelete(evt) {
     });
     evt.currentTarget.parentNode.nextElementSibling.children[1].children[0].addEventListener("click", ()=>{ // selects yes button
         console.log(this.parentNode.parentNode.className);
-        myLibrary.splice(this.parentNode.parentNode.className.match(/\d/g), 1);
+        let index = 0;
+        console.log();
+        // iterates through myLibrary array to find the matching one to delete
+        for (let book of myLibrary) {
+            if (book.order == this.parentNode.parentNode.className.match(/\d/g)) {
+                break;
+            } else {
+                index++;
+            }
+        }
+        myLibrary.splice(index, 1);
         this.parentNode.parentNode.remove();
-        resetBookOrder();
         removeBlurBooks();
         updateStats();
     });
+}
+
+// removes book from myLibrary array by iterating through and matching
+function removeFromLibArray() {
+    let index = 0;
+    console.log();
+    for (let book in myLibrary) {
+        if (book.order == this.parentNode.parentNode.className.match(/\d/g)) {
+            return index;
+        } else {
+            index++;
+        }
+    }
 }
 
 // blurs all the book contents
@@ -232,12 +269,35 @@ function createConfirmPopup() {
 
 function updateStats() {
     totalBookDisplay.innerHTML = myLibrary.length;
+    totalBooksRead.innerHTML = updateTotalBooksRead();
+    totalPagesDisplay.innerHTML = updateTotalPages();
+    totalPagesRead.innerHTML = updateTotalPagesRead();
 }
 
-// function updateBookCount() {
-//     let bookCount = 0;
-//     for (const book of myLibrary) {
-//         bookCount += 1;
-//     }
-//     return bookCount;
-// }
+function updateTotalBooksRead() {
+    let booksRead = 0;
+    for (let book of myLibrary) {
+        if (book.read == true) {
+            booksRead++;
+        }
+    }
+    return booksRead;
+}
+
+function updateTotalPages() {
+    let totalPages = 0;
+    for (let book of myLibrary) {
+        totalPages += parseInt(book.pages);
+    }
+    return totalPages;
+}
+
+function updateTotalPagesRead() {
+    let totalPagesRead = 0;
+    for (let book of myLibrary) {
+        if (book.read == true) {
+            totalPagesRead += parseInt(book.pages);
+        }
+    }
+    return totalPagesRead;
+}
