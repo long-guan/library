@@ -11,6 +11,7 @@ const totalBooksRead = document.querySelector('.total-books-read');
 const totalPagesDisplay = document.querySelector('.total-pages');
 const totalPagesRead = document.querySelector('.total-pages-read');
 
+
 let myLibrary = [];
 
 // exit button in form
@@ -99,7 +100,6 @@ function addCheckBox(newBookCont, checkbox) {
     const newCheckBox = document.createElement("input");
     newCheckBox.type = "checkbox";
     newCheckBox.checked = checkbox;
-    console.log(newCheckBox.checked);
     const newSpan = document.createElement("span");
     const content = document.createTextNode("Mark As Read");
     newSpan.appendChild(content);
@@ -150,7 +150,79 @@ function addEdit() {
     newSVGPath.setAttribute("fill", "currentColor");
     newSVGPath.setAttribute("d", "M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z");
     newSVG.appendChild(newSVGPath);
+    newSVG.addEventListener("click", showFormEdit);
     return newSVG;
+}
+
+
+//* start of form edit for revising the inputted book info
+const formEdit = document.querySelector('.form-edit');
+const editTitle = document.querySelector('#edit-title');
+const editAuthur = document.querySelector('#edit-author');
+const editPages = document.querySelector('#edit-pages');
+const editDate = document.querySelector('#edit-date');
+const editSubmit = document.querySelector('.edit-submit');
+const editExit = document.querySelector('.edit-exit');
+
+function showFormEdit() {
+    console.log(this.parentNode.parentNode.className);
+    formEdit.style.display = "flex";
+    bookContainer.classList.add("blur");
+    copyInfotoEdit(this);
+    editSubmit.addEventListener("click", ()=>{
+        editArrayBook(this);
+        updateBookDisplay(this);
+        formEdit.style.display = "none";
+        bookContainer.classList.remove("blur");
+    })
+
+}
+
+editExit.addEventListener("click", ()=>{
+    formEdit.style.display = "none";
+    bookContainer.classList.remove("blur");
+});
+
+//----------------------------------------------------------------------
+// uses array data to display current book info in edit form
+function copyInfotoEdit(book) {
+    editTitle.value = myLibrary[MatchClassOrder(book)].title;
+    editAuthur.value = myLibrary[MatchClassOrder(book)].author;
+    editPages.value = myLibrary[MatchClassOrder(book)].pages;
+    editDate.value = myLibrary[MatchClassOrder(book)].date;
+}
+
+// sets the array data to the edited book info
+function editArrayBook(book) {
+    myLibrary[MatchClassOrder(book)].title = editTitle.value;
+    myLibrary[MatchClassOrder(book)].author = editAuthur.value;
+    myLibrary[MatchClassOrder(book)].pages = editPages.value;
+    myLibrary[MatchClassOrder(book)].date = editDate.value;
+}
+
+// updates the html display for book info
+function updateBookDisplay(book) {
+    book.parentNode.parentNode.children[0].innerHTML = myLibrary[MatchClassOrder(book)].title;
+    book.parentNode.parentNode.children[1].innerHTML = myLibrary[MatchClassOrder(book)].author;
+    book.parentNode.parentNode.children[2].innerHTML = myLibrary[MatchClassOrder(book)].pages;
+    book.parentNode.parentNode.children[4].innerHTML = myLibrary[MatchClassOrder(book)].date;
+}
+// end of form edit for revising the inputted boook info*
+// ------------------------------------------------------------------------
+
+// matches the class number to the order of the array stored in myLibrary to match up the displayed info to the array info
+function MatchClassOrder(btn) {
+    let order = 0;
+    console.log(btn.parentNode.parentNode);
+    for (let book of myLibrary) {
+        if (book.order == btn.parentNode.parentNode.className.match(/\d/g)) {
+            break;
+        } else {
+            order++;
+        }
+    }
+    console.log(order)
+    return order;
 }
 
 // creates new SVG delete button
@@ -267,6 +339,8 @@ function createConfirmPopup() {
     return newContainer;
 }
 
+
+//* start of update for stats
 function updateStats() {
     totalBookDisplay.innerHTML = myLibrary.length;
     totalBooksRead.innerHTML = updateTotalBooksRead();
@@ -301,3 +375,5 @@ function updateTotalPagesRead() {
     }
     return totalPagesRead;
 }
+
+//* end of update for stats

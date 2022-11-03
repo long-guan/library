@@ -163,6 +163,24 @@ hr {
     display: none;
 }
 
+.form-edit {
+    background-color: gray;
+    position: fixed;
+    height: 200px;
+    width: 350px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    display: none;
+}
+
 .form-buttons>button {
     border-radius: 5px;
     padding-top: 5px;
