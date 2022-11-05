@@ -24,14 +24,20 @@ const addBook = document.querySelector(".add-button").addEventListener('click', 
     showFormBlur();
 })
 
-// enter button in form
+// checks in everthing is filled out before allowing submit for enter button in form
 const submit = document.querySelector(".submit").addEventListener('click', ()=> {
-    const newBook = new createBook(inputTitle.value, inputAuthor.value, inputPages.value, checkBox.checked, inputDate.value);
-    myLibrary.push(newBook);
-    addBookContainer();
-    hideFormUnblur();
-    clearForm();
-})
+    if (inputTitle.value != "" && inputAuthor.value != "" && inputPages.value != "" && inputDate.value != "") {
+        const newBook = new createBook(inputTitle.value, inputAuthor.value, inputPages.value, checkBox.checked, inputDate.value);
+        myLibrary.push(newBook);
+        addBookContainer();
+        hideFormUnblur();
+        clearForm();
+    };
+    // else {
+    //     console.log('do nothing');
+    // }
+});
+
 
 // creates book structure and elements and appends to book-container
 function addBookContainer() {
@@ -42,7 +48,7 @@ function addBookContainer() {
             newBookCont.classList.add(book.order);
             addBookInfo(newBookCont, "title", book.title);
             addBookInfo(newBookCont, "authur", "By: " + book.author);
-            addBookInfo(newBookCont, "page", book.pages + " Pages");
+            addBookInfo(newBookCont, "page", "Pages: " + book.pages);
             addCheckBox(newBookCont, book.read);
             addBookInfo(newBookCont, "date", "Published: " + book.date);
             addSVG(newBookCont);
@@ -154,7 +160,7 @@ function addEdit() {
     return newSVG;
 }
 
-
+//----------------------------------------------------------------------
 //* start of form edit for revising the inputted book info
 const formEdit = document.querySelector('.form-edit');
 const editTitle = document.querySelector('#edit-title');
@@ -174,6 +180,7 @@ function showFormEdit() {
         updateBookDisplay(this);
         formEdit.style.display = "none";
         bookContainer.classList.remove("blur");
+        updateStats();
     })
 
 }
@@ -183,7 +190,6 @@ editExit.addEventListener("click", ()=>{
     bookContainer.classList.remove("blur");
 });
 
-//----------------------------------------------------------------------
 // uses array data to display current book info in edit form
 function copyInfotoEdit(book) {
     editTitle.value = myLibrary[MatchClassOrder(book)].title;
@@ -203,11 +209,11 @@ function editArrayBook(book) {
 // updates the html display for book info
 function updateBookDisplay(book) {
     book.parentNode.parentNode.children[0].innerHTML = myLibrary[MatchClassOrder(book)].title;
-    book.parentNode.parentNode.children[1].innerHTML = myLibrary[MatchClassOrder(book)].author;
-    book.parentNode.parentNode.children[2].innerHTML = myLibrary[MatchClassOrder(book)].pages;
-    book.parentNode.parentNode.children[4].innerHTML = myLibrary[MatchClassOrder(book)].date;
+    book.parentNode.parentNode.children[1].innerHTML = "By: " + myLibrary[MatchClassOrder(book)].author;
+    book.parentNode.parentNode.children[2].innerHTML = "Pages: " + myLibrary[MatchClassOrder(book)].pages;
+    book.parentNode.parentNode.children[4].innerHTML = "Published: " + myLibrary[MatchClassOrder(book)].date;
 }
-// end of form edit for revising the inputted boook info*
+// end of form edit for revising the inputted boook info*∂
 // ------------------------------------------------------------------------
 
 // matches the class number to the order of the array stored in myLibrary to match up the displayed info to the array info

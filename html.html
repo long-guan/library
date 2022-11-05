@@ -55,32 +55,32 @@
                 <path fill="currentColor" d="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
             </svg>
         </div>
-        <div class="form-input">
+        <form class="form-input" name="inputForm">
             <div>
                 <label for="input-title">Book Title:</label>
-                <input type="text" placeholder="Title" id="input-title">
+                <input type="text" placeholder="Title" id="input-title" required name="title">
             </div>
             <div>
                 <label for="input-authur">Author:</label>
-                <input type="text" placeholder="Authur" id="input-authur">
+                <input type="text" placeholder="Authur" id="input-authur" required name="author">
             </div>
             <div>
                 <label for="input-pages">Number of Pages:</label>
-                <input type="number" placeholder="Number of Pages" id="input-pages">
+                <input type="number" placeholder="Number of Pages" id="input-pages" required min="1" name="pages">
             </div>
             <div>
-                <input type="checkbox" id="input-checkbox">
+                <input type="checkbox" id="input-checkbox" name="read">
                 <label for="input-checkbox">Mark As Read</label>
             </div>
             <div>
                 <label for="input-date">Date Published:</label>
-                <input type="date" id="input-date">
+                <input type="date" id="input-date" required name="date">
             </div>
             <div class="form-buttons">
                 <button class="submit">Add Book</button>
                 <button class="exit">Exit</button>
             </div>
-        </div>
+        </form>
         <div class="form-edit">
             <div>
                 <label for="edit-title">Book Title:</label>
